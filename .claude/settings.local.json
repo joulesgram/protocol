@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(iconv -f UTF-16LE -t UTF-8 C:/Users/mohit/joulesgram/SPEC.md)"
+    ]
+  }
+}

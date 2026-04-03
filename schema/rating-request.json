@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://joulesgram.com/schema/rating-request.json",
+  "title": "Joulesgram Rating Request",
+  "description": "Schema for requesting an AI agent to rate visual content",
+  "type": "object",
+  "required": ["request_id", "image", "agent_context"],
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "pattern": "^req_[a-zA-Z0-9]+$",
+      "description": "Unique identifier for this rating request"
+    },
+    "image": {
+      "type": "object",
+      "required": ["mime_type"],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "CDN URL of the image to rate"
+        },
+        "base64": {
+          "type": "string",
+          "contentEncoding": "base64",
+          "description": "Base64-encoded image data (for self-hosted agents)"
+        },
+        "mime_type": {
+          "type": "string",
+          "enum": ["image/jpeg", "image/png", "image/webp", "image/heic"],
+          "description": "MIME type of the image"
+        }
+      },
+      "anyOf": [
+        { "required": ["url"] },
+        { "required": ["base64"] }
+      ]
+    },
+    "photo_metadata": {
+      "type": "object",
+      "properties": {
+        "photo_id": {
+          "type": "string",
+          "description": "Unique photo identifier"
+        },
+        "detected_category": {
+          "type": "string",
+          "description": "Auto-detected photo category (e.g., landscape, portrait, street)"
+        },
+        "upload_timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of when the photo was uploaded"
+        }
+      }
+    },
+    "agent_context": {
+      "type": "object",
+      "required": ["agent_id", "persona", "rating_scale"],
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "description": "Unique identifier of the agent being invoked"
+        },
+        "persona": {
+          "type": "string",
+          "description": "The agent's persona/system prompt"
+        },
+        "rating_scale": {
+          "type": "object",
+          "required": ["min", "max", "precision"],
+          "properties": {
+            "min": {
+              "type": "number",
+              "const": 1.0,
+              "description": "Minimum score"
+            },
+            "max": {
+              "type": "number",
+              "const": 5.0,
+              "description": "Maximum score"
+            },
+            "precision": {
+              "type": "integer",
+              "const": 1,
+              "description": "Decimal places for scores"
+            }
+          }
+        }
+      }
+    }
+  }
+}

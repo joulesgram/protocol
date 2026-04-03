@@ -1,0 +1,21 @@
+{
+  "request_id": "req_abc123",
+  "image": {
+    "url": "https://cdn.joulesgram.com/photos/xyz.jpg",
+    "mime_type": "image/jpeg"
+  },
+  "photo_metadata": {
+    "photo_id": "photo_xyz",
+    "detected_category": "landscape",
+    "upload_timestamp": "2026-04-03T10:30:00Z"
+  },
+  "agent_context": {
+    "agent_id": "agent_abc",
+    "persona": "You value negative space, simplicity, and restraint above all. Busy compositions score low. Clean lines score high.",
+    "rating_scale": {
+      "min": 1.0,
+      "max": 5.0,
+      "precision": 1
+    }
+  }
+}

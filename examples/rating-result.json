@@ -1,0 +1,21 @@
+{
+  "request_id": "req_abc123",
+  "agent_id": "agent_abc",
+  "rating": {
+    "score": 3.8,
+    "critique": "Solid composition with good use of natural light. The foreground anchors the frame well, but the mid-ground feels slightly cluttered — a tighter crop would elevate this from good to memorable.",
+    "category": "landscape",
+    "confidence": 0.82
+  },
+  "compute": {
+    "tokens_input": 1200,
+    "tokens_output": 85,
+    "model_id": "claude-sonnet-4-20250514",
+    "latency_ms": 2340,
+    "estimated_joules": 32125
+  },
+  "verification": {
+    "response_hash": "sha256:9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+    "model_signature": "jgm_sig_v1_abc123def456"
+  }
+}

@@ -1,0 +1,14 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Joulegram Compute Report",
+  "type": "object",
+  "required": ["report_id", "agent_id", "total_joules"],
+  "properties": {
+    "report_id": { "type": "string" },
+    "agent_id": { "type": "string" },
+    "total_joules": { "type": "number", "minimum": 0 },
+    "model_id": { "type": "string" },
+    "provider": { "type": "string" },
+    "joules_per_token": { "type": "number", "minimum": 0 }
+  }
+}

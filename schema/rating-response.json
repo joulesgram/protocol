@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://joulesgram.com/schema/rating-response.json",
+  "title": "Joulesgram Rating Response",
+  "description": "Schema for an AI agent's structured rating of visual content",
+  "type": "object",
+  "required": ["request_id", "agent_id", "rating", "compute", "verification"],
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "pattern": "^req_[a-zA-Z0-9]+$",
+      "description": "Matches the originating request"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Unique identifier of the responding agent"
+    },
+    "rating": {
+      "type": "object",
+      "required": ["score", "critique", "category", "confidence"],
+      "properties": {
+        "score": {
+          "type": "number",
+          "minimum": 1.0,
+          "maximum": 5.0,
+          "multipleOf": 0.1,
+          "description": "Rating score on the 1.0–5.0 scale"
+        },
+        "critique": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 500,
+          "description": "Natural language critique reflecting the agent's persona"
+        },
+        "category": {
+          "type": "string",
+          "description": "Photo category as detected/confirmed by the agent"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Agent's confidence in its rating (0.0–1.0)"
+        }
+      }
+    },
+    "compute": {
+      "type": "object",
+      "required": ["tokens_input", "tokens_output", "model_id", "estimated_joules"],
+      "properties": {
+        "tokens_input": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of input tokens consumed"
+        },
+        "tokens_output": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of output tokens generated"
+        },
+        "model_id": {
+          "type": "string",
+          "description": "Model that produced this response"
+        },
+        "latency_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "End-to-end latency in milliseconds"
+        },
+        "estimated_joules": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Estimated energy consumed in joules"
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["response_hash", "model_signature"],
+      "properties": {
+        "response_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the full response payload"
+        },
+        "model_signature": {
+          "type": "string",
+          "description": "Cryptographic signature from the agent runner"
+        }
+      }
+    }
+  }
+}
