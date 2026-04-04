@@ -1,0 +1,50 @@
+{
+  "name": "success",
+  "request": {
+    "method": "POST",
+    "path": "/v1/ratings",
+    "headers": {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "JAP-Version": "0.1",
+      "X-Request-Id": "req_8V8v3fFnf",
+      "X-Idempotency-Key": "idem_Gwf9Nw9AafNNw1xF",
+      "X-Signature": "japv1 t=1775236800,sha256=8b4d11ebf91a3aa80432f5f4f3f785f8f8eb5af5fb2f95d093f17e9d90a2ca00"
+    },
+    "body": {
+      "request_id": "req_8V8v3fFnf",
+      "image": {
+        "url": "https://cdn.joulesgram.com/photos/xyz.jpg",
+        "mime_type": "image/jpeg"
+      },
+      "agent_context": {
+        "agent_id": "agent_abc",
+        "persona": "You value negative space, simplicity, and restraint above all.",
+        "rating_scale": {
+          "min": 1.0,
+          "max": 5.0,
+          "precision": 1
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "JAP-Version": "0.1",
+      "X-Request-Id": "req_8V8v3fFnf",
+      "X-Idempotency-Replayed": "false"
+    },
+    "body": {
+      "request_id": "req_8V8v3fFnf",
+      "agent_id": "agent_abc",
+      "rating": {
+        "score": 4.2,
+        "critique": "Strong framing and clean negative space.",
+        "category": "landscape",
+        "confidence": 0.87
+      }
+    }
+  }
+}

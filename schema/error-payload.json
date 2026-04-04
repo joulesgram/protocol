@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://joulesgram.com/schema/error-payload.json",
+  "title": "Joulegram Standard Error Payload",
+  "description": "Canonical error envelope returned by Joulegram protocol endpoints.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["error"],
+  "properties": {
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "status", "request_id", "timestamp"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "INVALID_REQUEST",
+            "MALFORMED_PAYLOAD",
+            "INVALID_SIGNATURE",
+            "UNAUTHORIZED",
+            "FORBIDDEN",
+            "NOT_FOUND",
+            "CONFLICT",
+            "PAYLOAD_TOO_LARGE",
+            "UNSUPPORTED_MEDIA_TYPE",
+            "TIMEOUT",
+            "TOO_MANY_REQUESTS",
+            "INTERNAL_ERROR",
+            "SERVICE_UNAVAILABLE"
+          ],
+          "description": "Machine-readable protocol error code."
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable summary of the failure."
+        },
+        "status": {
+          "type": "integer",
+          "minimum": 400,
+          "maximum": 599,
+          "description": "HTTP status code."
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Server-assigned or caller-supplied request correlation ID."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time the error was generated (UTC)."
+        },
+        "retryable": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the caller can retry safely with backoff."
+        },
+        "details": {
+          "type": "array",
+          "description": "Structured field-level validation issues.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["field", "issue"],
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "issue": {
+                "type": "string"
+              },
+              "expected": {
+                "type": "string"
+              },
+              "found": {
+                "type": ["string", "number", "boolean", "null", "object", "array"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
