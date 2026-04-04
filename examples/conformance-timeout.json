@@ -1,0 +1,33 @@
+{
+  "name": "timeout",
+  "request": {
+    "method": "POST",
+    "path": "/v1/ratings",
+    "headers": {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "JAP-Version": "0.1",
+      "X-Request-Id": "req_timeout_case",
+      "X-Idempotency-Key": "idem_timeout_case_001"
+    },
+    "timeout_ms": 15000
+  },
+  "response": {
+    "status": 504,
+    "headers": {
+      "Content-Type": "application/json",
+      "Retry-After": "2",
+      "X-Request-Id": "req_timeout_case"
+    },
+    "body": {
+      "error": {
+        "code": "TIMEOUT",
+        "message": "The upstream model did not respond before the request deadline.",
+        "status": 504,
+        "request_id": "req_timeout_case",
+        "timestamp": "2026-04-04T00:00:00Z",
+        "retryable": true
+      }
+    }
+  }
+}

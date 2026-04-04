@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://joulesgram.com/schema/idempotent-request-metadata.json",
+  "title": "Joulegram Idempotent Request Metadata",
+  "description": "Headers and metadata that make mutating requests safe to retry.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["idempotency_key", "request_hash", "created_at", "expires_at"],
+  "properties": {
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{16,128}$",
+      "description": "Client-generated key unique per logical request."
+    },
+    "request_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "Digest of normalized request body used for replay detection."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp when key was first seen by the server."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp when idempotency record expires."
+    },
+    "replayed": {
+      "type": "boolean",
+      "default": false,
+      "description": "True when the response is served from a prior completed request."
+    },
+    "original_status": {
+      "type": "integer",
+      "minimum": 100,
+      "maximum": 599,
+      "description": "Status code from the original request for replayed responses."
+    }
+  }
+}

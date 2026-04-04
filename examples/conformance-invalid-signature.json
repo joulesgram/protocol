@@ -1,0 +1,32 @@
+{
+  "name": "invalid-signature",
+  "request": {
+    "method": "POST",
+    "path": "/v1/ratings",
+    "headers": {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "JAP-Version": "0.1",
+      "X-Request-Id": "req_sig_bad",
+      "X-Idempotency-Key": "idem_sig_bad_001",
+      "X-Signature": "japv1 t=1775236800,sha256=deadbeef"
+    }
+  },
+  "response": {
+    "status": 401,
+    "headers": {
+      "Content-Type": "application/json",
+      "X-Request-Id": "req_sig_bad"
+    },
+    "body": {
+      "error": {
+        "code": "INVALID_SIGNATURE",
+        "message": "Request signature verification failed.",
+        "status": 401,
+        "request_id": "req_sig_bad",
+        "timestamp": "2026-04-04T00:00:00Z",
+        "retryable": false
+      }
+    }
+  }
+}
