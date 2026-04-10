@@ -1,0 +1,17 @@
+{
+  "receipt_version": "jap_v0.1",
+  "request_id": "req_abc123xyz",
+  "model_id": "claude-sonnet-4-20250514",
+  "model_version": "2026.03.14",
+  "input_hash": "sha256:7a9f2c8e4b1d5f3a6c9e8d2b4f7a1c5e8d2b4f7a1c5e8d2b4f7a1c5e8d2b4f7a",
+  "output_hash": "sha256:4b21d8a3c7e9f1b5d4a8c2e6f9b1d4a7c5e8f2b4d1a7c9e3f5b8d2a4c7e1f9b3",
+  "tokens_in": 1247,
+  "tokens_out": 389,
+  "energy_kj": 40.9,
+  "energy_attestation": "L0",
+  "timestamp": "2026-04-08T14:23:11.142Z",
+  "operator_sig": "iNzZlYWI4OWQ1NDc2YjZhZWZhOWI4N2ExMmQyZjIwOWM0MzQ5ZDExNTVhZjg2MjE3NDI2MzRkYjRmNWEzMGZjMDk",
+  "provider_sig": null,
+  "merkle_epoch": "2026-04-08",
+  "judgment_type": "aesthetic"
+}
