@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://joulegram.com/schema/jap-receipt-v0.1.json",
+  "title": "JAP Receipt v0.1",
+  "description": "Canonical Joulegram Agent Protocol receipt format per Whitepaper §6. Every joule on the Joulegram network must trace to either a receipt matching this schema or a Treasury receipt (see treasury-receipt.schema.json). This schema is the pure JAP receipt format and intentionally carries no Joulegram-app-specific fields (agent_id, rating, critique) — client applications extend this schema with their own additional properties.",
+  "type": "object",
+  "required": [
+    "receipt_version",
+    "request_id",
+    "model_id",
+    "model_version",
+    "input_hash",
+    "output_hash",
+    "tokens_in",
+    "tokens_out",
+    "energy_kj",
+    "energy_attestation",
+    "timestamp",
+    "operator_sig",
+    "merkle_epoch"
+  ],
+  "properties": {
+    "receipt_version": {
+      "type": "string",
+      "const": "jap_v0.1",
+      "description": "Schema version identifier. Locked to jap_v0.1 for Phase 0. Future schema revisions will bump this field and the protocol version."
+    },
+    "request_id": {
+      "type": "string",
+      "pattern": "^req_[a-z0-9_]+$",
+      "minLength": 5,
+      "maxLength": 128,
+      "description": "Unique request identifier assigned by the operator at inference time. Must be unique across the entire ledger history."
+    },
+    "model_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Canonical provider-reported model identifier (e.g., claude-sonnet-4-20250514, gpt-4o-2024-08-06, gemini-1.5-pro)."
+    },
+    "model_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "Provider-reported model snapshot or version string. For Anthropic, this is the response header model version. For OpenAI, the 'model' field of the response. For self-hosted models, the operator's version tag."
+    },
+    "input_hash": {
+      "$ref": "#/$defs/sha256Hex",
+      "description": "SHA-256 hash of the canonical input bytes. The canonicalization rule is client-specific and must be documented by each JAP client. For Joulegram photos, the rule is: sha256(image_bytes || utf8(persona_prompt))."
+    },
+    "output_hash": {
+      "$ref": "#/$defs/sha256Hex",
+      "description": "SHA-256 hash of the canonical output bytes (the full provider response body, as received by the operator, before any post-processing)."
+    },
+    "tokens_in": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total input tokens consumed, as reported by the provider. Includes system prompt, user message, and any cached tokens."
+    },
+    "tokens_out": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total output tokens generated, as reported by the provider."
+    },
+    "energy_kj": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Energy equivalent in kilojoules. At L0, computed as ((tokens_in + tokens_out) × alpha_model × beta_provider) / 1000 where alpha_model is the coefficient from Whitepaper §9.1. At L1+, provided by the provider or measured directly."
+    },
+    "energy_attestation": {
+      "type": "string",
+      "enum": ["L0", "L1", "L2", "L3", "L4"],
+      "description": "Energy attestation level per Whitepaper §10. L0 = coefficient-based (current Phase 0 default). L1 = provider-attested via API headers. L2 = calibrated via benchmark consortium. L3 = TEE-attested via hardware enclave. L4 = zero-knowledge proven."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp of when the inference completed. Must be in UTC with millisecond precision (e.g., 2026-04-08T14:23:11.142Z). The UTC date of this timestamp must match the merkle_epoch field."
+    },
+    "operator_sig": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9+/]+=*$",
+      "minLength": 86,
+      "maxLength": 96,
+      "description": "Ed25519 signature of the canonical receipt body, base64-encoded. The signature is computed over the receipt JSON with all fields EXCEPT operator_sig itself, serialized with sorted keys, no whitespace, and ASCII-only encoding. See scripts/sign_receipt.py for the reference implementation."
+    },
+    "provider_sig": {
+      "type": ["string", "null"],
+      "description": "Optional provider-side signature. Used at energy attestation levels L1+ when the model provider directly attests to the response. Always null at L0. When present, format is provider-specific and documented in the provider's JAP integration spec."
+    },
+    "merkle_epoch": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "description": "UTC date (YYYY-MM-DD) of the Merkle tree epoch this receipt belongs to. Must match the UTC date derived from the timestamp field. Used by the daily Merkle root publisher to group receipts into epochs."
+    },
+    "judgment_type": {
+      "type": "string",
+      "enum": ["aesthetic", "code_review", "moderation", "general"],
+      "description": "Optional. The domain of AI judgment this receipt covers. 'aesthetic' = photo/visual critique, 'code_review' = code quality assessment, 'moderation' = content safety/policy filtering, 'general' = unclassified or custom. Joulegram-produced receipts always set this field. Third-party JAP clients may omit it or extend with custom values in Phase 1+."
+    }
+  },
+  "$defs": {
+    "sha256Hex": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest as lowercase hex with sha256: prefix. Exactly 71 characters total (7 for prefix + 64 hex digits)."
+    }
+  },
+  "examples": [
+    {
+      "receipt_version": "jap_v0.1",
+      "request_id": "req_abc123xyz",
+      "model_id": "claude-sonnet-4-20250514",
+      "model_version": "2026.03.14",
+      "input_hash": "sha256:7a9f2c8e4b1d5f3a6c9e8d2b4f7a1c5e8d2b4f7a1c5e8d2b4f7a1c5e8d2b4f7a",
+      "output_hash": "sha256:4b21d8a3c7e9f1b5d4a8c2e6f9b1d4a7c5e8f2b4d1a7c9e3f5b8d2a4c7e1f9b3",
+      "tokens_in": 1247,
+      "tokens_out": 389,
+      "energy_kj": 40.9,
+      "energy_attestation": "L0",
+      "timestamp": "2026-04-08T14:23:11.142Z",
+      "operator_sig": "iNzZlYWI4OWQ1NDc2YjZhZWZhOWI4N2ExMmQyZjIwOWM0MzQ5ZDExNTVhZjg2MjE3NDI2MzRkYjRmNWEzMGZjMDk",
+      "provider_sig": null,
+      "merkle_epoch": "2026-04-08",
+      "judgment_type": "aesthetic"
+    }
+  ]
+}
