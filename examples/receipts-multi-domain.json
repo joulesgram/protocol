@@ -14,7 +14,7 @@
     "provider_sig": null,
     "merkle_epoch": "2026-04-08",
     "judgment_type": "aesthetic",
-    "operator_sig": "xjSisX3gHsAgXOSPcIPTGxWVxdshFhmMUtPrPqZ17ulNpnzuLR6jktR2ascvcNhySQcpfIgUcV1VAdEXGwZcCg",
+    "operator_sig": "OkF/Nw5BHPUeHc+Mw0SOx+yuChTUErDzAuhSqLwhdwGx9+OXLS6F+h1pr6mKlpQnHwZ7+8vxlnhzgm6n6KETAw",
     "_comment": "Example 1: Aesthetic judgment \u2014 AI photo critic rates a user's photo"
   },
   {
@@ -32,7 +32,7 @@
     "provider_sig": null,
     "merkle_epoch": "2026-04-08",
     "judgment_type": "code_review",
-    "operator_sig": "arOTjD8ifkRpjw0l6QbP1x60KzyWIp+QQ8XJ333yBpsFCxrRdVJvCA1PnTHuwSEzSmyriO4DMAhdzyBfy1fgDg",
+    "operator_sig": "ey/BW96WMscIVSaLxH3R6uEz4VTZ1prIwOehRRMX8g/mvtgZZmMf0HqknCjTGB5I53R3OiQzl110XqpFJUggAg",
     "_comment": "Example 2: Code review \u2014 AI reviews a pull request to the protocol repo"
   },
   {
@@ -50,7 +50,7 @@
     "provider_sig": null,
     "merkle_epoch": "2026-04-08",
     "judgment_type": "moderation",
-    "operator_sig": "hPnqIfJzwPnRYKn+wku9qIOHrn5IWzFjVTIsVTwU+9MWTAxwB6tp8ni4q0nIX1TyCB1/6HYqfXzgTj+mxae+Cw",
+    "operator_sig": "k+bVHvso+wH5+e2kwYGJQ1gD1ioQTrRecDYsX1v06NH1WBpzJ9jqU4DkrWDmb7ywwjVvx9f6M8c3mfp60cP8Bw",
     "_comment": "Example 3: Moderation \u2014 AI safety-checks a photo before it enters the public feed"
   }
 ]
